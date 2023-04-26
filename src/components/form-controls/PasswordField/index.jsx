@@ -1,6 +1,6 @@
-
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { FormHelperText } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -11,28 +11,14 @@ import { Controller } from "react-hook-form";
 
 const PasswordField = React.forwardRef((props, ref) => {
   const { name, label, errors, control } = props;
+  const hasError = !!errors[name];
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
   return (
     <>
-      {/* <Controller
-        name={name}
-        control={control}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            variant="outlined"
-            label={label}
-            fullWidth
-            error={!!errors.title}
-            helperText={errors.title && `${errors.title.message}`}
-          />
-        )}
-      /> */}
-
-      <FormControl fullWidth variant="outlined">
+      <FormControl error={hasError} fullWidth variant="outlined">
         <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
         <Controller
           name={name}
@@ -56,11 +42,10 @@ const PasswordField = React.forwardRef((props, ref) => {
                   </IconButton>
                 </InputAdornment>
               }
-              error={!!errors.title}
-              helperText={errors.title && `${errors.title.message}`}
             />
           )}
         />
+        <FormHelperText>{errors[name]?.message}</FormHelperText>
       </FormControl>
     </>
   );

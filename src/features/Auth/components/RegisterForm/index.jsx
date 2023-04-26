@@ -15,26 +15,47 @@ import InputField from "components/form-controls/InputField";
 import React from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
+import LinearProgress from "@mui/material/LinearProgress";
 import PasswordField from "./../../../../components/form-controls/PasswordField/index";
 
 const theme = createTheme();
+const schema = yup
+  .object()
+  .shape({
+    fullName: yup
+      .string()
+      .required("Please enter Full Name")
+      .test(
+        "should ha at least two words",
+        "please enter at least two words",
+        (value) => {
+          return value.split(" ").length >= 2;
+        }
+      ),
+    email: yup
+      .string()
+      .required("Please enter Email")
+      .email("Please enter a valid email address."),
+    password: yup
+      .string()
+      .required("Please enter Password")
+      .min(6, "Please enter at least 6 character"),
+    retypePassword: yup
+      .string()
+      .required("Please enter Retype Password")
+      .oneOf([yup.ref("password")], "Password does not match"),
+  })
+  .required();
 const RegisterForm = (props) => {
-  const schema = yup
-    .object({
-      fullName: yup.string().required("Please enter Full Name"),
-      email: yup.string().required("Please enter Email"),
-      password: yup.string().required("Please enter Password"),
-      retypePassword: yup.string().required("Please enter Retype Password"),
-    })
-    .required();
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, touchedFields, isSubmitting },
     control,
   } = useForm({
     resolver: yupResolver(schema),
   });
+  console.log(isSubmitting);
   const handleOnSubmit = (values) => {
     const { onSubmit } = props;
     if (onSubmit) {
@@ -54,6 +75,8 @@ const RegisterForm = (props) => {
     <React.Fragment>
       <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
+          <LinearProgress />
+
           <CssBaseline />
           <Box
             sx={{
@@ -69,6 +92,7 @@ const RegisterForm = (props) => {
             <Typography component="h1" variant="h5">
               Sign up
             </Typography>
+
             <form onSubmit={handleSubmit(handleOnSubmit)}>
               <Box noValidate sx={{ mt: 3 }}>
                 <Grid container spacing={2}>
@@ -78,6 +102,7 @@ const RegisterForm = (props) => {
                       label="Full Name"
                       {...register("fullName")}
                       errors={errors}
+                      touchedFields={touchedFields}
                       control={control}
                     />
                   </Grid>
@@ -88,6 +113,7 @@ const RegisterForm = (props) => {
                       label="Email"
                       {...register("email")}
                       errors={errors}
+                      touchedFields={touchedFields}
                       control={control}
                     />
                   </Grid>
@@ -97,6 +123,7 @@ const RegisterForm = (props) => {
                       label="Password"
                       {...register("password")}
                       errors={errors}
+                      touchedFields={touchedFields}
                       control={control}
                     />
                   </Grid>
@@ -106,6 +133,7 @@ const RegisterForm = (props) => {
                       label="Retype Password"
                       {...register("retypePassword")}
                       errors={errors}
+                      touchedFields={touchedFields}
                       control={control}
                     />
                   </Grid>

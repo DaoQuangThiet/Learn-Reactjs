@@ -5,6 +5,7 @@ import { Controller } from "react-hook-form";
 
 const InputField = React.forwardRef((props, ref) => {
   const { name, label, errors, control } = props;
+  const hasError = errors[name];
   return (
     <>
       <Controller
@@ -16,8 +17,8 @@ const InputField = React.forwardRef((props, ref) => {
             variant="outlined"
             label={label}
             fullWidth
-            error={!!errors.title}
-            helperText={errors.title && `${errors.title.message}`}
+            error={!!hasError}
+            helperText={errors[name]?.message}
           />
         )}
       />

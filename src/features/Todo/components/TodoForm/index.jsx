@@ -13,7 +13,7 @@ const TodoForm = (props) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, touchedFields },
     control,
   } = useForm({
     resolver: yupResolver(schema),
@@ -33,6 +33,7 @@ const TodoForm = (props) => {
         label="Todo"
         {...register("title")}
         errors={errors}
+        touchedFields={touchedFields}
         control={control}
       />
     </form>
