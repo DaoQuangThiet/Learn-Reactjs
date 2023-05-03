@@ -3,7 +3,6 @@ import userApi from "api/userApi";
 
 export const register = createAsyncThunk("user/register", async (payload) => {
   const data = await userApi.register(payload);
-  console.log(data);
   //save to localstorage
   localStorage.setItem("access_token", data.jwt);
   localStorage.setItem("user", JSON.stringify(data.user));
