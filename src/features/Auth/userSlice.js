@@ -8,6 +8,13 @@ export const register = createAsyncThunk("user/register", async (payload) => {
   localStorage.setItem("user", JSON.stringify(data.user));
   return data.user;
 });
+export const login = createAsyncThunk("user/login", async (payload) => {
+  const data = await userApi.login(payload);
+  //save to localstorage
+  localStorage.setItem("access_token", data.jwt);
+  localStorage.setItem("user", JSON.stringify(data.user));
+  return data.user;
+});
 const userSlice = createSlice({
   name: "user",
   initialState: {
@@ -17,6 +24,9 @@ const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(register.fulfilled, (state, action) => {
+      state.current = action.payload;
+    });
+    builder.addCase(login.fulfilled, (state, action) => {
       state.current = action.payload;
     });
   },

@@ -21,31 +21,14 @@ const theme = createTheme();
 const schema = yup
   .object()
   .shape({
-    fullName: yup
-      .string()
-      .required("Please enter Full Name")
-      .test(
-        "should ha at least two words",
-        "please enter at least two words",
-        (value) => {
-          return value.split(" ").length >= 2;
-        }
-      ),
-    email: yup
+    identifier: yup
       .string()
       .required("Please enter Email")
       .email("Please enter a valid email address."),
-    password: yup
-      .string()
-      .required("Please enter Password")
-      .min(6, "Please enter at least 6 character"),
-    retypePassword: yup
-      .string()
-      .required("Please enter Retype Password")
-      .oneOf([yup.ref("password")], "Password does not match"),
+    password: yup.string().required("Please enter Password"),
   })
   .required();
-const RegisterForm = (props) => {
+const LoginForm = (props) => {
   const {
     register,
     handleSubmit,
@@ -88,26 +71,16 @@ const RegisterForm = (props) => {
                 <LockOutlinedIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
-                Sign up
+                Sign In
               </Typography>
 
               <Box noValidate sx={{ mt: 3 }}>
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
                     <InputField
-                      name="fullName"
-                      label="Full Name"
-                      {...register("fullName")}
-                      errors={errors}
-                      control={control}
-                    />
-                  </Grid>
-
-                  <Grid item xs={12}>
-                    <InputField
-                      name="email"
+                      name="identifier"
                       label="Email"
-                      {...register("email")}
+                      {...register("identifier")}
                       errors={errors}
                       control={control}
                     />
@@ -117,15 +90,6 @@ const RegisterForm = (props) => {
                       name="password"
                       label="Password"
                       {...register("password")}
-                      errors={errors}
-                      control={control}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <PasswordField
-                      name="retypePassword"
-                      label="Retype Password"
-                      {...register("retypePassword")}
                       errors={errors}
                       control={control}
                     />
@@ -146,7 +110,7 @@ const RegisterForm = (props) => {
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
                 >
-                  Sign Up
+                  Sign In
                 </Button>
                 {/* <Grid container justifyContent="flex-end">
                   <Grid item>
@@ -163,4 +127,4 @@ const RegisterForm = (props) => {
     </React.Fragment>
   );
 };
-export default RegisterForm;
+export default LoginForm;

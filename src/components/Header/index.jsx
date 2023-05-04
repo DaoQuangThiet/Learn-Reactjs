@@ -1,5 +1,5 @@
 import { Close, Code } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
+import { Grid, IconButton } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -9,6 +9,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { makeStyles } from "@mui/styles";
+import Login from "features/Auth/components/Login";
 import Register from "features/Auth/components/Register";
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
@@ -21,13 +22,19 @@ const useStyle = makeStyles({
   closeButton: {
     position: "absolute !important",
     top: 1,
+
     right: 1,
     zIndex: 1,
   },
 });
+const MODE = {
+  LOGIN: "login",
+  REGISTER: "register",
+};
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const [mode, setMode] = useState(MODE.LOGIN);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -67,7 +74,27 @@ export default function Header() {
         </IconButton>
         <DialogTitle>Subscribe</DialogTitle>
         <DialogContent>
-          <Register closeDialog={handleClose} />
+          {mode === MODE.REGISTER && (
+            <>
+              <Register closeDialog={handleClose} />
+              <Box textAlign="center">
+                <Button onClick={() => setMode(MODE.LOGIN)}>
+                  Already have an account? Sign in
+                </Button>
+              </Box>
+            </>
+          )}
+          {mode === MODE.LOGIN && (
+            <>
+              <Login closeDialog={handleClose} />
+              <Box textAlign="center">
+                <Button onClick={() => setMode(MODE.REGISTER)}>
+                  Done have an account. Register here
+                </Button>
+              </Box>
+            </>
+          )}
+          {/*  */}
         </DialogContent>
       </Dialog>
     </Box>
