@@ -7,6 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./app/store";
 import { SnackbarProvider } from "notistack";
+import { StoreProvider } from "store";
 
 //fake comments(custom events)
 function emitComment(id) {
@@ -26,7 +27,8 @@ emitComment(3);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
+    {/* <Provider store={store}> */}
+    <StoreProvider>
       <BrowserRouter>
         <SnackbarProvider
           anchorOrigin={{ vertical: "top", horizontal: "right" }}
@@ -34,7 +36,9 @@ root.render(
           <App />
         </SnackbarProvider>
       </BrowserRouter>
-    </Provider>
+    </StoreProvider>
+
+    {/* </Provider> */}
   </React.StrictMode>
 );
 
